@@ -1,94 +1,229 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ElaViva Lifestyle</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="O point mais feminino de Anápolis — beleza, moda e bem-estar." />
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    :root{
+      --bg0:#0e1716;
+      --bg1:#0b1211;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.10);
+      --text:#eaf3f0;
+      --muted: rgba(234,243,240,.78);
+      --muted2: rgba(234,243,240,.60);
+      --accent:#8fd0bd;
+      --accent2:#2b6a5f;
+      --shadow: 0 25px 70px rgba(0,0,0,.45);
+      --radius: 22px;
     }
 
-    body {
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #1f3433, #0f1f1e);
-      color: #e9f1ef;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, "Noto Sans";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(143,208,189,.18), transparent 55%),
+        radial-gradient(900px 600px at 75% 35%, rgba(94,182,160,.12), transparent 58%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 26px 16px;
     }
 
-    main {
-      text-align: center;
-      padding: 48px 24px;
-      max-width: 420px;
+    .wrap{
+      width:min(980px, 100%);
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .hero{
+      padding: 28px 24px 22px;
+      text-align:center;
+    }
+
+    .logo{
+      width: 92px;
+      height: 92px;
+      object-fit: contain;
+      background: rgba(255,255,255,.92);
+      border-radius: 14px;
+      padding: 10px;
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    }
+
+    h1{
+      margin: 14px 0 8px;
+      font-size: clamp(26px, 3.2vw, 40px);
+      letter-spacing: .2px;
+    }
+
+    .sub{
+      margin: 0 auto;
+      max-width: 52ch;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+
+    .section{
+      padding: 18px 18px 20px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
+    }
+    .section-title strong{
+      font-size: 16px;
+      letter-spacing:.2px;
+    }
+    .section-title span{
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    .grid{
+      padding: 16px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .thumb{
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+      aspect-ratio: 4 / 5;
+      display:block;
+    }
+
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.01);
+    }
+
+    .cta{
+      padding: 0 16px 18px;
+      display:flex;
+      justify-content:center;
+    }
+
+    /* Botão DISCRETO (nada “gigante”) */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(143,208,189,.35);
+      background: rgba(143,208,189,.10);
+      color: var(--text);
+      text-decoration:none;
+      font-weight: 600;
+      letter-spacing: .2px;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      max-width: 340px;
       width: 100%;
     }
-
-    .logo {
-      width: 140px;
-      margin: 0 auto 24px;
+    .btn:hover{
+      background: rgba(143,208,189,.16);
+      border-color: rgba(143,208,189,.55);
+      transform: translateY(-1px);
     }
+    .btn:active{ transform: translateY(0); }
 
-    h1 {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      opacity: 0.9;
-    }
-
-    .btn-tour {
-      margin-top: 36px;
-      display: inline-block;
-      padding: 14px 28px;
-      border-radius: 28px;
-      background: #2f5f5a;
-      color: #ffffff;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 500;
-      transition: background 0.2s ease;
-    }
-
-    .btn-tour:hover {
-      background: #3b766f;
-    }
-
-    footer {
-      margin-top: 32px;
+    .foot{
+      text-align:center;
+      color: var(--muted2);
       font-size: 13px;
-      opacity: 0.6;
+      padding: 10px 0 0;
+    }
+
+    @media (max-width: 720px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+      .hero{ padding: 24px 18px 18px; }
+    }
+    @media (max-width: 420px){
+      .grid{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
-  <main>
-    <img src="elaviva-logo.png" alt="ElaViva" class="logo" />
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="card hero" aria-label="ElaViva Lifestyle">
+      <img class="logo" src="./elaviva-logo.png" alt="Logo ElaViva" />
+      <h1>ElaViva Lifestyle</h1>
+      <p class="sub">
+        O point mais feminino de Anápolis.<br />
+        Beleza, moda e bem-estar no mesmo caminho.
+      </p>
+    </section>
 
-    <h1>ElaViva Lifestyle</h1>
+    <!-- GALERIA (miniaturas) -->
+    <section class="card section" aria-label="Galeria ElaViva">
+      <div class="section-title">
+        <strong>🗺️ Galeria ElaViva</strong>
+        <span>prévia das imagens do carrossel</span>
+      </div>
 
-    <p>
-      O point mais feminino de Anápolis.<br />
-      Beleza, moda e bem-estar no mesmo caminho.
-    </p>
+      <div class="grid">
+        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 1)">
+          <img src="./assets/chegada.png" alt="Slide 1 — O lugar dela na cidade." />
+        </a>
+        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 2)">
+          <img src="./assets/espaco.png" alt="Slide 2 — Um espaço para desacelerar." />
+        </a>
+        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 3)">
+          <img src="./assets/acesso.png" alt="Slide 3 — Acesso fácil e conforto." />
+        </a>
+        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 4)">
+          <img src="./assets/acessibilidade.png" alt="Slide 4 — Acessibilidade (escada + elevador)." />
+        </a>
+        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 5)">
+          <img src="./assets/passeio.png" alt="Slide 5 — Um passeio completo." />
+        </a>
+        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 6)">
+          <img src="./assets/estacionamento.png" alt="Slide 6 — Chegar é fácil (estacionamento)." />
+        </a>
+      </div>
 
-    <a href="preview-carrossel.html" class="btn-tour">
-      Faça um Tour pela Galeria
-    </a>
+      <!-- CTA discreto abaixo das fotos -->
+      <div class="cta">
+        <a class="btn" href="./preview-carrossel.html" aria-label="Abrir tour do carrossel">
+          Faça um Tour pela Galeria →
+        </a>
+      </div>
+    </section>
 
-    <footer>
-      © ElaViva · Anápolis
-    </footer>
+    <div class="foot">© ElaViva • Anápolis</div>
   </main>
 </body>
 </html>
