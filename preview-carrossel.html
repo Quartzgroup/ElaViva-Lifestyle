@@ -3,302 +3,318 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prévia do carrossel (ElaViva)</title>
+  <title>Prévia do carrossel (Instagram 4:5)</title>
   <style>
     :root{
-      --bg:#0c1114;
-      --panel:#121a1e;
-      --text:#e7eef2;
-      --muted:#a9b7c0;
-      --line:rgba(255,255,255,.08);
-      --accent:#70d6c3;
-      --accent2:#c8a3ff;
-      --shadow: 0 18px 50px rgba(0,0,0,.45);
-      --radius: 18px;
-      --radius2: 28px;
-      --btn:#1a242a;
-      --btnHover:#223039;
+      --bg0:#0b1014;
+      --bg1:#0e151b;
+      --card:#111a21;
+      --card2:#0f171e;
+      --text:#e9f0f6;
+      --muted:#a9b7c4;
+      --accent:#77d6c6;
+      --accent2:#2a6b62;
+
+      /* ✅ Instagram vertical (feed) */
+      --ig-w: 360px;  /* largura do frame na prévia */
+      --ig-r: 4 / 5;  /* proporção 1080 x 1350 */
     }
-    *{box-sizing:border-box}
+
+    *{ box-sizing: border-box; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:
-        radial-gradient(1200px 600px at 20% 10%, rgba(112,214,195,.16), transparent 60%),
-        radial-gradient(1000px 520px at 80% 20%, rgba(200,163,255,.12), transparent 60%),
-        radial-gradient(900px 560px at 50% 90%, rgba(255,190,120,.10), transparent 60%),
-        var(--bg);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
+        radial-gradient(1200px 700px at 20% 30%, #1b2a2a 0%, transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, #1d2431 0%, transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: var(--text);
+      min-height: 100vh;
+      padding: 18px;
     }
 
     .wrap{
-      width:min(1180px, 100%);
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:18px;
-      align-items:stretch;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 430px;
+      gap: 18px;
+      align-items: start;
     }
 
     @media (max-width: 980px){
       .wrap{ grid-template-columns: 1fr; }
     }
 
-    /* phone preview */
+    .panel, .phoneShell{
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.05);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ====== Phone / Preview ====== */
     .phoneShell{
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      border: 1px solid var(--line);
-      border-radius: var(--radius2);
-      padding:18px;
-      box-shadow: var(--shadow);
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      min-height: 560px;
+      padding: 16px 16px 14px;
     }
 
     .phoneTop{
       display:flex;
-      justify-content:space-between;
+      justify-content: space-between;
       align-items:center;
-      gap:10px;
+      gap: 10px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 14px;
     }
 
-    .titleMini{
-      font-weight:650;
-      letter-spacing:.2px;
-      font-size:14px;
-      color:var(--muted);
+    .titleNow{
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 70%;
     }
 
+    .autoBadge{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .pill{
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(119,214,198,.12);
+      border: 1px solid rgba(119,214,198,.28);
+      color: #d7fff8;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: .2px;
+    }
+
+    /* ✅ Frame exatamente 4:5 (Instagram) */
     .screen{
-      flex:1;
+      width: min(var(--ig-w), 100%);
+      aspect-ratio: var(--ig-r);
+      margin: 0 auto;
+      position: relative;
       border-radius: 22px;
-      background: #000;
-      border: 1px solid rgba(255,255,255,.12);
-      overflow:hidden;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      background: #000; /* fundo do frame (como feed) */
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 16px 40px rgba(0,0,0,.55);
     }
 
-    .slide{
+    /* ✅ imagem sempre preenche o frame sem distorcer */
+    .screen img{
       position:absolute;
-      inset:0;
-      opacity:0;
-      transform: scale(1.01);
-      transition: opacity .25s ease, transform .25s ease;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#000;
-    }
-    .slide.active{
-      opacity:1;
-      transform: scale(1);
-    }
-
-    /* ✅ IMPORTANTE: sem corte, sem achatamento */
-    .slide img{
-      width:100%;
-      height:100%;
-      object-fit: contain;      /* <-- era cover */
-      object-position: center;  /* centraliza */
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;   /* NÃO corta / NÃO achata */
+      object-position: center;
+      image-rendering: auto;
       display:block;
-      background:#000;          /* barras “letterbox” se sobrar espaço */
+      background: #000;
     }
 
     .dots{
       display:flex;
-      align-items:center;
       justify-content:center;
-      gap:8px;
-      padding-top:2px;
+      gap: 8px;
+      margin: 10px 0 12px;
+      opacity: .95;
     }
     .dot{
-      width:8px;height:8px;border-radius:99px;
-      background: rgba(255,255,255,.25);
-      border: 1px solid rgba(255,255,255,.18);
-      cursor:pointer;
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.28);
+      border: 1px solid rgba(255,255,255,.15);
+      cursor: pointer;
       transition: transform .15s ease, background .15s ease;
     }
     .dot.active{
-      background: var(--accent);
-      transform: scale(1.2);
+      background: rgba(119,214,198,.95);
+      border-color: rgba(119,214,198,.55);
+      transform: scale(1.15);
     }
 
     .controls{
       display:flex;
-      gap:10px;
+      justify-content: space-between;
       align-items:center;
-      justify-content:space-between;
+      gap: 10px;
     }
-    .controlsLeft, .controlsRight{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .btn{
-      appearance:none;
-      border:1px solid var(--line);
-      background: var(--btn);
-      color: var(--text);
-      padding:10px 14px;
-      border-radius: 12px;
-      font-weight:650;
-      letter-spacing:.2px;
-      cursor:pointer;
-      transition: background .15s ease, transform .05s ease, border-color .15s ease;
-      user-select:none;
-    }
-    .btn:hover{ background: var(--btnHover); border-color: rgba(255,255,255,.16); }
-    .btn:active{ transform: translateY(1px); }
 
-    /* side panel */
+    button{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: .2px;
+      transition: transform .12s ease, background .12s ease;
+      user-select: none;
+    }
+    button:hover{ background: rgba(119,214,198,.12); }
+    button:active{ transform: translateY(1px); }
+
+    .btnRow{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+
+    /* ====== Side panel ====== */
     .panel{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding:18px;
-      box-shadow: var(--shadow);
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+      padding: 18px;
     }
-    .panel h1{
-      margin:0;
-      font-size:18px;
-      letter-spacing:.2px;
+    h1{
+      margin: 2px 0 6px;
+      font-size: 22px;
+      letter-spacing: .2px;
     }
-    .panel p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.35;
+    .sub{
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.35;
+      font-size: 14px;
     }
+
     .list{
-      margin:0;
-      padding:0;
-      list-style:none;
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display:flex;
-      flex-direction:column;
-      gap:10px;
+      flex-direction: column;
+      gap: 10px;
     }
     .item{
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
-      border-radius: 14px;
-      padding:12px 12px;
       display:flex;
-      gap:12px;
+      gap: 12px;
+      align-items:flex-start;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.08);
       cursor:pointer;
-      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+      transition: background .12s ease, border-color .12s ease;
     }
     .item:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,.16);
-      background: rgba(0,0,0,.24);
+      background: rgba(119,214,198,.08);
+      border-color: rgba(119,214,198,.22);
     }
     .item.active{
-      border-color: rgba(112,214,195,.55);
-      box-shadow: 0 0 0 3px rgba(112,214,195,.12) inset;
+      background: rgba(119,214,198,.10);
+      border-color: rgba(119,214,198,.40);
+      box-shadow: inset 0 0 0 1px rgba(119,214,198,.20);
     }
     .idx{
-      min-width:28px;
-      height:28px;
-      border-radius:10px;
+      width: 28px; height: 28px;
+      border-radius: 10px;
       display:grid;
       place-items:center;
-      font-weight:750;
-      background: rgba(112,214,195,.16);
-      border:1px solid rgba(112,214,195,.22);
-      color: #d7fff6;
-      font-size:13px;
+      font-weight: 900;
+      background: rgba(119,214,198,.12);
+      border: 1px solid rgba(119,214,198,.25);
+      color: #d7fff8;
+      flex: 0 0 auto;
     }
-    .meta{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width:0;
-    }
+    .meta{ min-width: 0; }
     .label{
-      font-weight:700;
-      font-size:13px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      font-weight: 800;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .path{
-      font-size:12px;
       color: var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-    .hint{
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
-      border-radius: 14px;
-      padding:12px;
-      color: var(--muted);
-      font-size:13px;
-      line-height:1.35;
-    }
-    code{
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.10);
-      padding:2px 6px;
-      border-radius: 8px;
-      color: var(--text);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: .95;
+    }
+
+    .footerHelp{
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .kbd{
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      padding: 1px 6px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--text);
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-
-    <div class="phoneShell" id="phone">
+    <!-- LEFT: preview -->
+    <section class="phoneShell" aria-label="Prévia do carrossel">
       <div class="phoneTop">
-        <div class="titleMini" id="currentLabel">Slide 1</div>
-        <div class="titleMini" id="autoStatus">Auto: ON</div>
+        <div class="titleNow" id="nowTitle">Slide 1</div>
+
+        <div class="autoBadge">
+          <span id="autoText">Auto: OFF</span>
+          <span class="pill" id="autoPill">OFF</span>
+        </div>
       </div>
 
-      <div class="screen" id="screen" aria-label="Prévia do carrossel"></div>
-      <div class="dots" id="dots" aria-label="Navegação por pontos"></div>
+      <div class="screen" id="screen">
+        <img id="img" alt="Slide do carrossel" src="" />
+      </div>
+
+      <div class="dots" id="dots" aria-label="Navegação por slides"></div>
 
       <div class="controls">
-        <div class="controlsLeft">
-          <button class="btn" id="prev">◀ Anterior</button>
-          <button class="btn" id="toggleAuto">Auto: ON</button>
+        <div class="btnRow">
+          <button id="prev" type="button">◀ Anterior</button>
+          <button id="toggleAuto" type="button">Auto: OFF</button>
         </div>
-        <div class="controlsRight">
-          <button class="btn" id="next">Próximo ▶</button>
-        </div>
+        <button id="next" type="button">Próximo ▶</button>
       </div>
-    </div>
+    </section>
 
+    <!-- RIGHT: list -->
     <aside class="panel">
       <h1>Prévia do carrossel (6 slides)</h1>
-      <p>Simulação do carrossel antes de postar no Instagram. Use botões, setas do teclado ou o automático.</p>
+      <p class="sub">
+        Simulação do carrossel no formato do Instagram (vertical 4:5 — 1080×1350).
+        Use botões, setas do teclado ou o automático.
+      </p>
+
       <ul class="list" id="list"></ul>
 
-      <div class="hint">
-        <div><strong>Atalhos:</strong> <code>←</code> e <code>→</code> para navegar • clique nos pontinhos para ir direto.</div>
-        <div style="margin-top:8px;">Se alguma imagem não aparecer, confira se os arquivos estão em <code>/assets</code> e com o mesmo nome (acentos contam!).</div>
+      <div class="footerHelp">
+        <div><strong>Atalhos:</strong> <span class="kbd">←</span> e <span class="kbd">→</span> para navegar • Clique nos pontinhos para ir direto.</div>
+        <div style="margin-top:8px;">
+          Se alguma imagem não aparecer, confira se os arquivos estão em <span class="kbd">/assets</span>
+          e com o mesmo nome (acentos contam!).
+        </div>
       </div>
     </aside>
-
   </div>
 
   <script>
+    // ✅ Slides (na sequência definida por você)
     const slides = [
       { label: "Slide 1 — O lugar dela na cidade.", src: "assets/chegada.png" },
       { label: "Slide 2 — Um espaço para desacelerar.", src: "assets/espaço.png" },
@@ -308,59 +324,36 @@
       { label: "Slide 6 — Chegar é fácil (estacionamento).", src: "assets/estacionamento.png" },
     ];
 
-    const screen = document.getElementById("screen");
+    const img = document.getElementById("img");
+    const nowTitle = document.getElementById("nowTitle");
     const dotsWrap = document.getElementById("dots");
     const list = document.getElementById("list");
-    const currentLabel = document.getElementById("currentLabel");
 
     const btnPrev = document.getElementById("prev");
     const btnNext = document.getElementById("next");
     const btnToggleAuto = document.getElementById("toggleAuto");
-    const autoStatus = document.getElementById("autoStatus");
-    const phone = document.getElementById("phone");
+    const autoText = document.getElementById("autoText");
+    const autoPill = document.getElementById("autoPill");
 
     let index = 0;
-    let els = [];
-    let dots = [];
 
-    // AUTOPLAY
-    let autoplay = true;
-    let intervalMs = 2800;
-    let timer = null;
+    // Auto-play
+    let autoOn = false;
+    let autoTimer = null;
+    const AUTO_MS = 2400;
 
-    function startAutoplay(){
-      stopAutoplay();
-      timer = setInterval(() => show(index + 1), intervalMs);
-    }
-    function stopAutoplay(){
-      if (timer) clearInterval(timer);
-      timer = null;
-    }
-    function syncAutoUI(){
-      btnToggleAuto.textContent = autoplay ? "Auto: ON" : "Auto: OFF";
-      autoStatus.textContent = autoplay ? "Auto: ON" : "Auto: OFF";
-    }
-
-    slides.forEach((s, i) => {
-      // slide
+    // Render dots
+    const dots = slides.map((s, i) => {
       const d = document.createElement("div");
-      d.className = "slide" + (i === 0 ? " active" : "");
-      const img = document.createElement("img");
-      img.src = s.src;
-      img.alt = s.label;
-      d.appendChild(img);
-      screen.appendChild(d);
-      els.push(d);
+      d.className = "dot" + (i === 0 ? " active" : "");
+      d.title = s.label;
+      d.addEventListener("click", () => go(i));
+      dotsWrap.appendChild(d);
+      return d;
+    });
 
-      // dot
-      const dot = document.createElement("div");
-      dot.className = "dot" + (i === 0 ? " active" : "");
-      dot.title = s.label;
-      dot.addEventListener("click", () => { show(i); userInteracted(); });
-      dotsWrap.appendChild(dot);
-      dots.push(dot);
-
-      // side list item
+    // Render list
+    const items = slides.map((s, i) => {
       const li = document.createElement("li");
       li.className = "item" + (i === 0 ? " active" : "");
       li.innerHTML = `
@@ -370,66 +363,70 @@
           <div class="path">${s.src}</div>
         </div>
       `;
-      li.addEventListener("click", () => { show(i); userInteracted(); });
+      li.addEventListener("click", () => go(i));
       list.appendChild(li);
+      return li;
     });
 
-    function setActiveList(i){
-      [...list.children].forEach((li, idx) => li.classList.toggle("active", idx === i));
+    function updateAutoUI(){
+      autoText.textContent = "Auto: " + (autoOn ? "ON" : "OFF");
+      autoPill.textContent = autoOn ? "ON" : "OFF";
+      btnToggleAuto.textContent = "Auto: " + (autoOn ? "ON" : "OFF");
+      autoPill.style.background = autoOn ? "rgba(119,214,198,.18)" : "rgba(255,255,255,.08)";
+      autoPill.style.borderColor = autoOn ? "rgba(119,214,198,.38)" : "rgba(255,255,255,.12)";
     }
 
-    function show(i){
-      const nextIndex = (i + slides.length) % slides.length;
-
-      els[index].classList.remove("active");
-      dots[index].classList.remove("active");
-
-      index = nextIndex;
-
-      els[index].classList.add("active");
-      dots[index].classList.add("active");
-
-      currentLabel.textContent = slides[index].label;
-      setActiveList(index);
+    function startAuto(){
+      stopAuto();
+      autoOn = true;
+      updateAutoUI();
+      autoTimer = setInterval(() => go((index + 1) % slides.length, true), AUTO_MS);
     }
 
-    function userInteracted(){
-      if (autoplay) startAutoplay();
+    function stopAuto(){
+      if (autoTimer) clearInterval(autoTimer);
+      autoTimer = null;
+      autoOn = false;
+      updateAutoUI();
     }
 
-    btnPrev.addEventListener("click", () => { show(index - 1); userInteracted(); });
-    btnNext.addEventListener("click", () => { show(index + 1); userInteracted(); });
+    function toggleAuto(){
+      if (autoOn) stopAuto();
+      else startAuto();
+    }
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") { show(index - 1); userInteracted(); }
-      if (e.key === "ArrowRight") { show(index + 1); userInteracted(); }
-      if (e.key === " "){
-        e.preventDefault();
-        autoplay = !autoplay;
-        syncAutoUI();
-        if (autoplay) startAutoplay(); else stopAutoplay();
+    function go(i, fromAuto=false){
+      // Se o usuário clicar/navegar manualmente, mantém o auto ligado (estilo “stories/carrossel”)
+      // mas reinicia o timer para não trocar “na hora”.
+      index = i;
+
+      img.src = slides[index].src;
+      img.alt = slides[index].label;
+      nowTitle.textContent = slides[index].label;
+
+      dots.forEach((d, k) => d.classList.toggle("active", k === index));
+      items.forEach((it, k) => it.classList.toggle("active", k === index));
+
+      if (autoOn && !fromAuto){
+        startAuto(); // reinicia o intervalo
       }
+    }
+
+    // Buttons
+    btnPrev.addEventListener("click", () => go((index - 1 + slides.length) % slides.length));
+    btnNext.addEventListener("click", () => go((index + 1) % slides.length));
+    btnToggleAuto.addEventListener("click", toggleAuto);
+
+    // Keyboard
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") go((index - 1 + slides.length) % slides.length);
+      if (e.key === "ArrowRight") go((index + 1) % slides.length);
+      if (e.key.toLowerCase() === "a") toggleAuto(); // atalho: tecla A
     });
 
-    btnToggleAuto.addEventListener("click", () => {
-      autoplay = !autoplay;
-      syncAutoUI();
-      if (autoplay) startAutoplay();
-      else stopAutoplay();
-    });
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) stopAutoplay();
-      else if (autoplay) startAutoplay();
-    });
-
-    phone.addEventListener("mouseenter", () => stopAutoplay());
-    phone.addEventListener("mouseleave", () => { if (autoplay) startAutoplay(); });
-
-    show(0);
-    syncAutoUI();
-    if (autoplay) startAutoplay();
+    // Init
+    updateAutoUI();
+    go(0);
   </script>
 </body>
 </html>
-
