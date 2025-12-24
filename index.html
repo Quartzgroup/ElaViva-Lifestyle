@@ -2,228 +2,825 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ElaViva Lifestyle</title>
-  <meta name="description" content="O point mais feminino de Anápolis — beleza, moda e bem-estar." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ElaViva — Beleza, Moda & Bem-Estar. O point feminino de Anápolis, na Av. Mato Grosso (Galeria Elizabeth)." />
+  <title>ElaViva — Beleza, Moda & Bem-Estar</title>
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="ElaViva — Beleza, Moda & Bem-Estar" />
+  <meta property="og:description" content="O point feminino de Anápolis. Beleza, moda & bem-estar em um só lugar." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/elaviva-logo.png" />
 
   <style>
     :root{
-      --bg0:#0e1716;
-      --bg1:#0b1211;
-      --card: rgba(255,255,255,.06);
-      --stroke: rgba(255,255,255,.10);
-      --text:#eaf3f0;
-      --muted: rgba(234,243,240,.78);
-      --muted2: rgba(234,243,240,.60);
-      --accent:#8fd0bd;
-      --accent2:#2b6a5f;
-      --shadow: 0 25px 70px rgba(0,0,0,.45);
-      --radius: 22px;
+      /* Base */
+      --bg: #fbf6f0;
+      --card: rgba(255,255,255,.84);
+      --stroke: rgba(29,46,35,.12);
+      --text: #1f2a22;
+      --muted: rgba(31,42,34,.72);
+
+      /* Brand (mais vibração, sem gritar) */
+      --green: #2f4b3a;
+      --leaf: #3f6a52;
+      --terracotta: #d87562; /* energia */
+      --peach: #f3b09a;      /* calor */
+      --gold: #d3a24b;       /* brilho */
+      --cream: rgba(255, 249, 242, .9);
+
+      --shadow: 0 18px 50px rgba(31,42,34,.10);
+      --shadow2: 0 12px 26px rgba(31,42,34,.10);
+      --radius: 18px;
+      --max: 1120px;
     }
 
-    *{ box-sizing:border-box; }
+    *{ box-sizing: border-box; }
     html, body{ height:100%; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, "Noto Sans";
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1200px 700px at 20% 10%, rgba(143,208,189,.18), transparent 55%),
-        radial-gradient(900px 600px at 75% 35%, rgba(94,182,160,.12), transparent 58%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+        radial-gradient(1200px 720px at 10% 0%, rgba(216,117,98,.30), transparent 58%),
+        radial-gradient(1000px 700px at 92% 10%, rgba(63,106,82,.22), transparent 56%),
+        radial-gradient(900px 650px at 55% 100%, rgba(211,162,75,.22), transparent 56%),
+        linear-gradient(180deg, rgba(255,255,255,.75), rgba(251,246,240,1));
+      line-height: 1.55;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .container{
+      width: min(var(--max), calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    /* Header */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(251,246,240,.78);
+      border-bottom: 1px solid rgba(31,42,34,.08);
+    }
+    .nav{
       display:flex;
       align-items:center;
-      justify-content:center;
-      padding: 26px 16px;
+      justify-content: space-between;
+      padding: 10px 0;
+      gap: 16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 220px;
     }
 
-    .wrap{
-      width:min(980px, 100%);
+    /* LOGO grande no desktop, menor no mobile */
+    .brand img{
+      height: 136px; /* 4x vs 34px */
+      width: auto;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(31,42,34,.10));
+    }
+    @media (max-width: 920px){ .brand img{ height: 92px; } }
+    @media (max-width: 560px){ .brand img{ height: 64px; } }
+
+    .navlinks{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .navlinks a{
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+    .navlinks a:hover{
+      background: rgba(63,106,82,.10);
+      color: var(--text);
+    }
+
+    /* Hero */
+    .hero{ padding: 44px 0 22px; }
+
+    .hero-grid{
       display:grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 22px;
+      align-items: stretch;
     }
 
-    .card{
+    .hero-card{
       background: var(--card);
       border: 1px solid var(--stroke);
-      border-radius: var(--radius);
+      border-radius: calc(var(--radius) + 10px);
       box-shadow: var(--shadow);
+      padding: 28px;
       overflow:hidden;
+      position: relative;
     }
 
-    .hero{
-      padding: 28px 24px 22px;
-      text-align:center;
+    /* Vibração elegante */
+    .hero-card:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(760px 320px at 14% 0%, rgba(216,117,98,.30), transparent 62%),
+        radial-gradient(560px 280px at 62% 0%, rgba(211,162,75,.26), transparent 56%),
+        radial-gradient(520px 280px at 95% 35%, rgba(63,106,82,.22), transparent 60%);
+      pointer-events:none;
+      opacity:.96;
+    }
+    .hero-card:after{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--terracotta), var(--gold), var(--leaf));
+      opacity:.78;
     }
 
-    .logo{
-      width: 92px;
-      height: 92px;
-      object-fit: contain;
-      background: rgba(255,255,255,.92);
-      border-radius: 14px;
-      padding: 10px;
-      border: 1px solid rgba(0,0,0,.06);
-      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    .hero-inner{ position: relative; z-index: 1; }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(63,106,82,.10);
+      border: 1px solid rgba(63,106,82,.18);
+      color: rgba(47,75,58,.98);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .dot{
+      width: 8px; height:8px; border-radius:999px;
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(211,162,75,.24);
     }
 
     h1{
       margin: 14px 0 8px;
-      font-size: clamp(26px, 3.2vw, 40px);
-      letter-spacing: .2px;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
     }
-
     .sub{
-      margin: 0 auto;
-      max-width: 52ch;
+      margin: 0;
       color: var(--muted);
-      line-height: 1.55;
       font-size: 16px;
-    }
-
-    .section{
-      padding: 18px 18px 20px;
-    }
-
-    .section-title{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 14px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.12);
-    }
-    .section-title strong{
-      font-size: 16px;
-      letter-spacing:.2px;
-    }
-    .section-title span{
-      color: var(--muted2);
-      font-size: 13px;
-    }
-
-    .grid{
-      padding: 16px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .thumb{
-      border-radius: 16px;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.20);
-      aspect-ratio: 4 / 5;
-      display:block;
-    }
-
-    .thumb img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:block;
-      transform: scale(1.01);
+      max-width: 66ch;
     }
 
     .cta{
-      padding: 0 16px 18px;
       display:flex;
-      justify-content:center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
     }
-
-    /* Botão DISCRETO (nada “gigante”) */
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:10px;
+      gap: 10px;
       padding: 12px 16px;
       border-radius: 14px;
-      border: 1px solid rgba(143,208,189,.35);
-      background: rgba(143,208,189,.10);
+      border: 1px solid rgba(31,42,34,.12);
+      background: rgba(255,255,255,.92);
       color: var(--text);
-      text-decoration:none;
-      font-weight: 600;
-      letter-spacing: .2px;
-      transition: transform .08s ease, background .18s ease, border-color .18s ease;
-      max-width: 340px;
+      font-weight: 900;
+      font-size: 14px;
+      transition: transform .08s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: var(--shadow2); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(216,117,98,.98), rgba(211,162,75,.96));
+      border-color: rgba(216,117,98,.38);
+      color: #fff;
+    }
+    .btn.ghost{
+      background: rgba(63,106,82,.10);
+      border-color: rgba(63,106,82,.18);
+      color: rgba(47,75,58,.98);
+    }
+
+    .hero-side{
+      background: rgba(255,255,255,.74);
+      border: 1px solid var(--stroke);
+      border-radius: calc(var(--radius) + 10px);
+      padding: 22px;
+      box-shadow: 0 14px 40px rgba(31,42,34,.10);
+      display:flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-side:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(560px 260px at 20% 0%, rgba(243,176,154,.26), transparent 62%);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .hero-side > *{ position: relative; z-index: 1; }
+
+    .side-title{
+      font-weight: 950;
+      letter-spacing: -0.01em;
+      margin: 0;
+      font-size: 16px;
+    }
+    .side-list{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display:grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .side-list li{
+      display:flex; gap: 10px; align-items:flex-start;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(63,106,82,.06);
+      border: 1px solid rgba(63,106,82,.10);
+    }
+    .chip{
+      width: 10px; height:10px; margin-top: 5px;
+      border-radius: 4px;
+      background: rgba(216,117,98,.98);
+      box-shadow: 0 0 0 4px rgba(216,117,98,.16);
+      flex: 0 0 auto;
+    }
+
+    /* Sections */
+    section{ padding: 42px 0; }
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    h2{
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+    }
+    .lead{
+      margin: 6px 0 0;
+      color: var(--muted);
+      max-width: 74ch;
+      font-size: 15px;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .card{
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(31,42,34,.08);
+      position: relative;
+      overflow: hidden;
+    }
+    /* brilho discreto */
+    .card.glow:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(520px 240px at 15% 0%, rgba(211,162,75,.14), transparent 62%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .card > *{ position: relative; z-index: 1; }
+    .card p{ margin: 0; color: var(--muted); }
+
+    .pill{
+      display:inline-flex;
+      gap: 10px;
+      align-items:center;
+      font-weight: 950;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .icon{
+      width: 34px; height: 34px; border-radius: 12px;
+      background: rgba(216,117,98,.16);
+      border: 1px solid rgba(216,117,98,.26);
+      display:inline-flex; align-items:center; justify-content:center;
+      color: rgba(31,42,34,.92);
+      font-size: 16px;
+      flex: 0 0 auto;
+    }
+    .icon.green{
+      background: rgba(63,106,82,.12);
+      border-color: rgba(63,106,82,.20);
+    }
+    .icon.gold{
+      background: rgba(211,162,75,.14);
+      border-color: rgba(211,162,75,.22);
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .feature{
+      background: rgba(255,255,255,.84);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(31,42,34,.07);
+    }
+    .feature:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(420px 220px at 20% 0%, rgba(216,117,98,.14), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .feature > *{ position: relative; z-index: 1; }
+    .feature h3{
+      margin: 10px 0 6px;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+    .feature p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .quote{
+      border-left: 4px solid rgba(216,117,98,.78);
+      padding-left: 14px;
+      color: rgba(31,42,34,.88);
+      font-style: italic;
+      margin: 0;
+    }
+
+    /* Gallery */
+    .gallery-grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .gallery-item{
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(31,42,34,.10);
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 10px 30px rgba(31,42,34,.08);
+      position: relative;
+    }
+    .gallery-item:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, transparent 60%, rgba(31,42,34,.10));
+      pointer-events:none;
+      opacity:.35;
+    }
+    .gallery-item img{
       width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.001);
     }
-    .btn:hover{
-      background: rgba(143,208,189,.16);
-      border-color: rgba(143,208,189,.55);
-      transform: translateY(-1px);
-    }
-    .btn:active{ transform: translateY(0); }
 
-    .foot{
-      text-align:center;
-      color: var(--muted2);
+    /* Map Image */
+    .map-image{
+      width:100%;
+      height:auto;
+      border-radius: 16px;
+      border: 1px solid rgba(31,42,34,.10);
+      display:block;
+      box-shadow: 0 10px 30px rgba(31,42,34,.08);
+    }
+
+    /* Footer */
+    footer{
+      padding: 30px 0 46px;
+      color: var(--muted);
       font-size: 13px;
-      padding: 10px 0 0;
+      border-top: 1px solid rgba(31,42,34,.08);
+      background: rgba(251,246,240,.78);
+    }
+    .foot{
+      display:flex;
+      gap: 16px;
+      align-items:flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .foot img{ height: 34px; width:auto; display:block; }
+    .foot small{ display:block; margin-top: 6px; }
+    .foot a{ color: rgba(47,75,58,.95); font-weight: 900; }
+    .foot a:hover{ text-decoration: underline; }
+
+    /* Floating WhatsApp button (opcional, mas ajuda muito) */
+    .wa-float{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 80;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(63,106,82,.98), rgba(47,75,58,.98));
+      color: #fff;
+      font-weight: 900;
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 16px 34px rgba(31,42,34,.18);
+    }
+    .wa-float:hover{ transform: translateY(-1px); }
+    .wa-badge{
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      display: inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 16px;
+    }
+    @media (max-width: 560px){
+      .wa-float span.label{ display:none; }
+      .wa-float{ padding: 12px; }
     }
 
-    @media (max-width: 720px){
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-      .hero{ padding: 24px 18px 18px; }
+    /* Responsive */
+    @media (max-width: 920px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .features{ grid-template-columns: 1fr 1fr; }
+      .gallery-grid{ grid-template-columns: repeat(2, 1fr); }
+      .gallery-item img{ height: 220px; }
     }
-    @media (max-width: 420px){
-      .grid{ grid-template-columns: 1fr; }
+    @media (max-width: 560px){
+      .navlinks{ display:none; }
+      .features{ grid-template-columns: 1fr; }
+      .grid-2{ grid-template-columns: 1fr; }
+      .gallery-grid{ grid-template-columns: 1fr; }
+      .gallery-item img{ height: 230px; }
+      .hero{ padding-top: 30px; }
+      .hero-card{ padding: 22px; }
     }
   </style>
 </head>
 
 <body>
-  <main class="wrap">
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top" aria-label="Ir para o topo">
+          <img src="assets/elaviva-logo.png" alt="ElaViva — Beleza, Moda & Bem-Estar" />
+        </a>
+
+        <nav class="navlinks" aria-label="Navegação">
+          <a href="#sobre">Sobre</a>
+          <a href="#galeria">Galeria</a>
+          <a href="#o-que-encontra">O que você encontra</a>
+          <a href="#eventos">Eventos</a>
+          <a href="#lojistas">Para lojistas</a>
+          <a href="#localizacao">Localização</a>
+          <a href="#contato">Contato</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
     <!-- HERO -->
-    <section class="card hero" aria-label="ElaViva Lifestyle">
-      <img class="logo" src="./elaviva-logo.png" alt="Logo ElaViva" />
-      <h1>ElaViva Lifestyle</h1>
-      <p class="sub">
-        O point mais feminino de Anápolis.<br />
-        Beleza, moda e bem-estar no mesmo caminho.
-      </p>
-    </section>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div class="hero-inner">
+              <span class="kicker"><span class="dot"></span> ElaViva Anápolis — Galeria Elizabeth</span>
+              <h1>O point feminino de Anápolis.</h1>
+              <p class="sub">
+                Beleza, moda & bem-estar em um só lugar, com curadoria, conforto e energia boa.
+                Porque <strong>ElaViva</strong> — ela vibra.
+              </p>
 
-    <!-- GALERIA (miniaturas) -->
-    <section class="card section" aria-label="Galeria ElaViva">
-      <div class="section-title">
-        <strong>🗺️ Galeria ElaViva</strong>
-        <span>prévia das imagens do carrossel</span>
-      </div>
+              <div class="cta">
+                <a class="btn primary" href="#sobre">Conheça o ElaViva</a>
+                <a class="btn ghost" href="#localizacao">Como chegar</a>
+                <a class="btn" href="https://instagram.com/elaviva.lifestyle" target="_blank" rel="noreferrer">Instagram</a>
+              </div>
+            </div>
+          </div>
 
-      <div class="grid">
-        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 1)">
-          <img src="./assets/chegada.png" alt="Slide 1 — O lugar dela na cidade." />
-        </a>
-        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 2)">
-          <img src="./assets/espaco.png" alt="Slide 2 — Um espaço para desacelerar." />
-        </a>
-        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 3)">
-          <img src="./assets/acesso.png" alt="Slide 3 — Acesso fácil e conforto." />
-        </a>
-        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 4)">
-          <img src="./assets/acessibilidade.png" alt="Slide 4 — Acessibilidade (escada + elevador)." />
-        </a>
-        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 5)">
-          <img src="./assets/passeio.png" alt="Slide 5 — Um passeio completo." />
-        </a>
-        <a class="thumb" href="./preview-carrossel.html" title="Abrir tour (Slide 6)">
-          <img src="./assets/estacionamento.png" alt="Slide 6 — Chegar é fácil (estacionamento)." />
-        </a>
-      </div>
-
-      <!-- CTA discreto abaixo das fotos -->
-      <div class="cta">
-        <a class="btn" href="./preview-carrossel.html" aria-label="Abrir tour do carrossel">
-          Faça um Tour pela Galeria →
-        </a>
+          <aside class="hero-side" aria-label="Destaques do ElaViva">
+            <p class="side-title">Por que ElaViva?</p>
+            <ul class="side-list">
+              <li><span class="chip"></span> Autocuidado sem pressa: um percurso completo, do jeito dela.</li>
+              <li><span class="chip"></span> Curadoria: poucos segmentos, bem escolhidos e complementares.</li>
+              <li><span class="chip"></span> Experiência: ambiente acolhedor, com convivência e eventos.</li>
+              <li><span class="chip"></span> Praticidade: Av. Mato Grosso, com estacionamento rotativo gratuito.</li>
+            </ul>
+          </aside>
+        </div>
       </div>
     </section>
 
-    <div class="foot">© ElaViva • Anápolis</div>
+    <!-- SOBRE -->
+    <section id="sobre">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Um espaço criado para ela.</h2>
+            <p class="lead">
+              A mulher de hoje conquista espaço no trabalho, assume responsabilidades, toma decisões, cuida de todo mundo —
+              e muitas vezes falta tempo, lugar e energia para cuidar de si.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card glow">
+            <div class="pill"><span class="icon">✨</span> O que nos move</div>
+            <p>
+              Nós acreditamos que autocuidado não é luxo, nem futilidade.
+              É condição para seguir em frente com mais força, saúde e alegria.
+            </p>
+          </div>
+          <div class="card glow">
+            <div class="pill"><span class="icon green">🌿</span> O que é o ElaViva</div>
+            <p>
+              Um ponto da cidade onde <strong>beleza, moda e bem-estar</strong> se encontram em um só percurso:
+              fazer o cabelo, cuidar da pele, escolher uma roupa, experimentar acessórios, tomar um café com calma e respirar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIA (FOTOS) -->
+    <section id="galeria">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>A galeria</h2>
+            <p class="lead">Ampla, iluminada e prática — com estacionamento e elevador.</p>
+          </div>
+        </div>
+
+        <div class="gallery-grid">
+          <figure class="gallery-item">
+            <img src="assets/galeria/01.png" alt="Foto 01 da galeria ElaViva" loading="lazy">
+          </figure>
+          <figure class="gallery-item">
+            <img src="assets/galeria/02.png" alt="Foto 02 da galeria ElaViva" loading="lazy">
+          </figure>
+          <figure class="gallery-item">
+            <img src="assets/galeria/03.png" alt="Foto 03 da galeria ElaViva" loading="lazy">
+          </figure>
+          <figure class="gallery-item">
+            <img src="assets/galeria/04.png" alt="Foto 04 da galeria ElaViva" loading="lazy">
+          </figure>
+          <figure class="gallery-item">
+            <img src="assets/galeria/05.png" alt="Foto 05 da galeria ElaViva" loading="lazy">
+          </figure>
+          <figure class="gallery-item">
+            <img src="assets/galeria/06.png" alt="Foto 06 da galeria ElaViva" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- O QUE ENCONTRA -->
+    <section id="o-que-encontra">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Um percurso completo, sem pressa.</h2>
+            <p class="lead">Tudo pensado para ela se cuidar, se expressar e viver um momento de qualidade.</p>
+          </div>
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <span class="icon">💇‍♀️</span>
+            <h3>Beleza</h3>
+            <p>Salões, esmalterias, estética e cuidados com a pele, com atendimento acolhedor e profissional.</p>
+          </div>
+          <div class="feature">
+            <span class="icon gold">👗</span>
+            <h3>Moda & Acessórios</h3>
+            <p>Roupas e acessórios para o cotidiano real da mulher — com curadoria e bom gosto.</p>
+          </div>
+          <div class="feature">
+            <span class="icon green">💆‍♀️</span>
+            <h3>Bem-estar</h3>
+            <p>Massagem e experiências que ajudam a desacelerar, relaxar e reconectar.</p>
+          </div>
+          <div class="feature">
+            <span class="icon">☕</span>
+            <h3>Café & Convivência</h3>
+            <p>Um espaço para sentar, conversar, trabalhar um pouco ou simplesmente respirar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTOS -->
+    <section id="eventos">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Um espaço vivo.</h2>
+            <p class="lead">
+              Eventos e encontros para movimentar a galeria com organização e bom gosto — e fazer ela viver o momento.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card glow">
+            <div class="pill"><span class="icon">📅</span> O que pode acontecer aqui</div>
+            <p>
+              Feiras de acessórios e moda, workshops de beleza, encontros de bem-estar,
+              ações especiais para datas comemorativas e programações temáticas ao longo do ano.
+            </p>
+          </div>
+          <div class="card glow">
+            <div class="pill"><span class="icon gold">✨</span> Sempre com cuidado</div>
+            <p>
+              Tudo com regras claras e respeito ao espaço: estética, segurança, limpeza e uma experiência agradável
+              para clientes e lojistas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOJISTAS -->
+    <section id="lojistas">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Quer fazer parte do ElaViva?</h2>
+            <p class="lead">
+              Estamos formando um mix selecionado de marcas e profissionais de beleza, moda e bem-estar.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card glow">
+            <div class="pill"><span class="icon">🏷️</span> O que buscamos</div>
+            <p>
+              Negócios com padrão de atendimento e estética alinhados ao conceito:
+              curadoria, colaboração e experiência. Crescer juntos, com visibilidade compartilhada e ações integradas.
+            </p>
+            <ul style="margin:12px 0 0; padding-left:18px; color: var(--muted); font-size:14px;">
+              <li>Esmalteria, cabelo, estética, sobrancelhas e maquiagem</li>
+              <li>Moda feminina, semijoias e acessórios</li>
+              <li>Bem-estar: massagem e serviços complementares</li>
+              <li>Café/lanchonete de bom nível</li>
+            </ul>
+          </div>
+
+          <div class="card glow" id="contato">
+            <div class="pill"><span class="icon green">📲</span> Vamos conversar</div>
+            <p>
+              Para participar, indicar uma marca ou saber mais sobre o projeto, entre em contato.
+            </p>
+
+            <div class="cta">
+              <!-- Troque o número quando quiser (formato: 55DDDNUMERO) -->
+              <a class="btn primary" href="https://wa.me/55SEUNUMEROAQUI" target="_blank" rel="noreferrer">Falar no WhatsApp</a>
+              <a class="btn" href="mailto:contato@elaviva.com.br">Enviar e-mail</a>
+            </div>
+
+            <p style="margin-top:12px; color: var(--muted); font-size: 13px;">
+              Dica: quando você publicar, substitua “SEUNUMEROAQUI” e o e-mail acima pelos contatos oficiais.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCALIZAÇÃO -->
+    <section id="localizacao">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Onde fica o ElaViva Anápolis</h2>
+            <p class="lead">Av. Mato Grosso — Galeria Elizabeth — Anápolis/GO.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card glow">
+            <div class="pill"><span class="icon">📍</span> Endereço</div>
+            <p><strong>Av. Mato Grosso — Galeria Elizabeth</strong><br/>Anápolis – GO</p>
+            <ul style="margin:12px 0 0; padding-left:18px; color: var(--muted); font-size:14px;">
+              <li>Fácil acesso pela Av. Mato Grosso</li>
+              <li>Estacionamento rotativo gratuito</li>
+              <li>Galeria ampla, iluminada e com elevador</li>
+            </ul>
+          </div>
+
+          <div class="card glow">
+            <div class="pill"><span class="icon gold">🗺️</span> Mapa</div>
+            <p style="margin-bottom:12px;">
+              Veja a localização no mapa ao final da página.
+            </p>
+            <a class="btn ghost" href="#mapa-final">Ver mapa no final</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section id="manifesto">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Manifesto ElaViva</h2>
+            <p class="lead">O que guia tudo o que construímos.</p>
+          </div>
+        </div>
+
+        <div class="card glow">
+          <p class="quote">
+            ElaViva é sobre criar lugares em que a mulher possa se olhar no espelho e sentir, com verdade:<br/>
+            <strong>“Eu estou aqui. Eu me cuido. Eu estou viva.”</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPA FINAL (imagem) -->
+    <section id="mapa-final">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Localização</h2>
+            <p class="lead">Av. Mato Grosso — Galeria Elizabeth — Anápolis/GO.</p>
+          </div>
+        </div>
+
+        <div class="card glow">
+          <img class="map-image" src="assets/mapa-elaviva.png" alt="Mapa de localização do ElaViva na Av. Mato Grosso, Anápolis/GO" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
   </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <div>
+          <img src="assets/elaviva-logo.png" alt="ElaViva — Beleza, Moda & Bem-Estar" />
+          <small>ElaViva — Beleza, Moda & Bem-Estar</small>
+          <small>Av. Mato Grosso — Galeria Elizabeth — Anápolis/GO</small>
+        </div>
+        <div>
+          <small><strong>Instagram:</strong> <a href="https://instagram.com/elaviva.lifestyle" target="_blank" rel="noreferrer">@elaviva.lifestyle</a></small>
+          <small><strong>Contato:</strong> <a href="#contato">WhatsApp / E-mail</a></small>
+          <small style="margin-top:10px;">© <span id="year"></span> ElaViva. Todos os direitos reservados.</small>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botão flutuante WhatsApp (troque o número quando quiser) -->
+  <a class="wa-float" href="https://wa.me/55SEUNUMEROAQUI" target="_blank" rel="noreferrer" aria-label="Falar no WhatsApp">
+    <span class="wa-badge">💬</span>
+    <span class="label">Falar no WhatsApp</span>
+  </a>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

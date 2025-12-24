@@ -1,137 +1,435 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Prévia do Carrossel — ElaViva</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prévia do carrossel (ElaViva)</title>
   <style>
-    body {
-      background: #0f1f1e;
-      color: #e9f1ef;
-      font-family: system-ui, sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: 40px 16px;
+    :root{
+      --bg:#0c1114;
+      --panel:#121a1e;
+      --text:#e7eef2;
+      --muted:#a9b7c0;
+      --line:rgba(255,255,255,.08);
+      --accent:#70d6c3;
+      --accent2:#c8a3ff;
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 28px;
+      --btn:#1a242a;
+      --btnHover:#223039;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(112,214,195,.16), transparent 60%),
+        radial-gradient(1000px 520px at 80% 20%, rgba(200,163,255,.12), transparent 60%),
+        radial-gradient(900px 560px at 50% 90%, rgba(255,190,120,.10), transparent 60%),
+        var(--bg);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
 
-    .wrap {
-      display: flex;
-      gap: 32px;
-      max-width: 1100px;
-      width: 100%;
+    .wrap{
+      width:min(1180px, 100%);
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:18px;
+      align-items:stretch;
     }
 
-    /* 📱 SIMULAÇÃO INSTAGRAM 1:1 */
-    .phone {
-      width: 360px;
-      aspect-ratio: 1 / 1;
+    @media (max-width: 980px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+
+    /* phone preview */
+    .phoneShell{
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding:18px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      min-height: 560px;
+    }
+
+    .phoneTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .titleMini{
+      font-weight:650;
+      letter-spacing:.2px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .screen{
+      flex:1;
+      border-radius: 22px;
       background: #000;
-      border-radius: 18px;
-      overflow: hidden;
-      position: relative;
+      border: 1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    .slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.4s ease;
+    .slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transform: scale(1.01);
+      transition: opacity .25s ease, transform .25s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#000;
+    }
+    .slide.active{
+      opacity:1;
+      transform: scale(1);
     }
 
-    .slide.active {
-      opacity: 1;
+    /* ✅ IMPORTANTE: sem corte, sem achatamento */
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit: contain;      /* <-- era cover */
+      object-position: center;  /* centraliza */
+      display:block;
+      background:#000;          /* barras “letterbox” se sobrar espaço */
     }
 
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      background: #000;
+    .dots{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding-top:2px;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:99px;
+      background: rgba(255,255,255,.25);
+      border: 1px solid rgba(255,255,255,.18);
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .dot.active{
+      background: var(--accent);
+      transform: scale(1.2);
     }
 
-    .controls {
-      margin-top: 12px;
-      display: flex;
-      justify-content: space-between;
-      width: 360px;
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
     }
-
-    button {
-      background: #2f5f5a;
-      border: none;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 16px;
-      cursor: pointer;
+    .controlsLeft, .controlsRight{
+      display:flex;
+      gap:10px;
+      align-items:center;
     }
+    .btn{
+      appearance:none;
+      border:1px solid var(--line);
+      background: var(--btn);
+      color: var(--text);
+      padding:10px 14px;
+      border-radius: 12px;
+      font-weight:650;
+      letter-spacing:.2px;
+      cursor:pointer;
+      transition: background .15s ease, transform .05s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ background: var(--btnHover); border-color: rgba(255,255,255,.16); }
+    .btn:active{ transform: translateY(1px); }
 
-    .info {
-      max-width: 480px;
-      font-size: 14px;
-      line-height: 1.6;
-      opacity: 0.85;
+    /* side panel */
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .panel h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .panel p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+    .list{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .item{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      border-radius: 14px;
+      padding:12px 12px;
+      display:flex;
+      gap:12px;
+      cursor:pointer;
+      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+    }
+    .item:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(0,0,0,.24);
+    }
+    .item.active{
+      border-color: rgba(112,214,195,.55);
+      box-shadow: 0 0 0 3px rgba(112,214,195,.12) inset;
+    }
+    .idx{
+      min-width:28px;
+      height:28px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      font-weight:750;
+      background: rgba(112,214,195,.16);
+      border:1px solid rgba(112,214,195,.22);
+      color: #d7fff6;
+      font-size:13px;
+    }
+    .meta{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+    .label{
+      font-weight:700;
+      font-size:13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .path{
+      font-size:12px;
+      color: var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    .hint{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      border-radius: 14px;
+      padding:12px;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+    code{
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      padding:2px 6px;
+      border-radius: 8px;
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div>
-      <div class="phone" id="screen"></div>
+
+    <div class="phoneShell" id="phone">
+      <div class="phoneTop">
+        <div class="titleMini" id="currentLabel">Slide 1</div>
+        <div class="titleMini" id="autoStatus">Auto: ON</div>
+      </div>
+
+      <div class="screen" id="screen" aria-label="Prévia do carrossel"></div>
+      <div class="dots" id="dots" aria-label="Navegação por pontos"></div>
 
       <div class="controls">
-        <button id="prev">◀ Anterior</button>
-        <button id="next">Próximo ▶</button>
+        <div class="controlsLeft">
+          <button class="btn" id="prev">◀ Anterior</button>
+          <button class="btn" id="toggleAuto">Auto: ON</button>
+        </div>
+        <div class="controlsRight">
+          <button class="btn" id="next">Próximo ▶</button>
+        </div>
       </div>
     </div>
 
-    <div class="info">
-      <h3>Prévia do carrossel (Instagram 1:1)</h3>
-      <p>
-        Simulação fiel do carrossel antes da postagem.
-        As imagens são exibidas sem corte, no formato aceito pelo Instagram.
-      </p>
-    </div>
+    <aside class="panel">
+      <h1>Prévia do carrossel (6 slides)</h1>
+      <p>Simulação do carrossel antes de postar no Instagram. Use botões, setas do teclado ou o automático.</p>
+      <ul class="list" id="list"></ul>
+
+      <div class="hint">
+        <div><strong>Atalhos:</strong> <code>←</code> e <code>→</code> para navegar • clique nos pontinhos para ir direto.</div>
+        <div style="margin-top:8px;">Se alguma imagem não aparecer, confira se os arquivos estão em <code>/assets</code> e com o mesmo nome (acentos contam!).</div>
+      </div>
+    </aside>
+
   </div>
 
   <script>
     const slides = [
-      "assets/chegada.png",
-      "assets/espaco.png",
-      "assets/acesso.png",
-      "assets/acessibilidade.png",
-      "assets/passeio.png",
-      "assets/estacionamento.png"
+      { label: "Slide 1 — O lugar dela na cidade.", src: "assets/chegada.png" },
+      { label: "Slide 2 — Um espaço para desacelerar.", src: "assets/espaço.png" },
+      { label: "Slide 3 — Acesso fácil e conforto.", src: "assets/acesso.png" },
+      { label: "Slide 4 — Acessibilidade (escada + elevador).", src: "assets/acessibilidade.png" },
+      { label: "Slide 5 — Um passeio completo.", src: "assets/passeio.png" },
+      { label: "Slide 6 — Chegar é fácil (estacionamento).", src: "assets/estacionamento.png" },
     ];
 
     const screen = document.getElementById("screen");
+    const dotsWrap = document.getElementById("dots");
+    const list = document.getElementById("list");
+    const currentLabel = document.getElementById("currentLabel");
+
+    const btnPrev = document.getElementById("prev");
+    const btnNext = document.getElementById("next");
+    const btnToggleAuto = document.getElementById("toggleAuto");
+    const autoStatus = document.getElementById("autoStatus");
+    const phone = document.getElementById("phone");
+
     let index = 0;
-    let auto = true;
+    let els = [];
+    let dots = [];
 
-    slides.forEach((src, i) => {
-      const div = document.createElement("div");
-      div.className = "slide" + (i === 0 ? " active" : "");
-      const img = document.createElement("img");
-      img.src = src;
-      div.appendChild(img);
-      screen.appendChild(div);
-    });
+    // AUTOPLAY
+    let autoplay = true;
+    let intervalMs = 2800;
+    let timer = null;
 
-    const els = document.querySelectorAll(".slide");
-
-    function show(i) {
-      els[index].classList.remove("active");
-      index = (i + els.length) % els.length;
-      els[index].classList.add("active");
+    function startAutoplay(){
+      stopAutoplay();
+      timer = setInterval(() => show(index + 1), intervalMs);
+    }
+    function stopAutoplay(){
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+    function syncAutoUI(){
+      btnToggleAuto.textContent = autoplay ? "Auto: ON" : "Auto: OFF";
+      autoStatus.textContent = autoplay ? "Auto: ON" : "Auto: OFF";
     }
 
-    document.getElementById("prev").onclick = () => show(index - 1);
-    document.getElementById("next").onclick = () => show(index + 1);
+    slides.forEach((s, i) => {
+      // slide
+      const d = document.createElement("div");
+      d.className = "slide" + (i === 0 ? " active" : "");
+      const img = document.createElement("img");
+      img.src = s.src;
+      img.alt = s.label;
+      d.appendChild(img);
+      screen.appendChild(d);
+      els.push(d);
 
-    setInterval(() => {
-      if (auto) show(index + 1);
-    }, 3500);
+      // dot
+      const dot = document.createElement("div");
+      dot.className = "dot" + (i === 0 ? " active" : "");
+      dot.title = s.label;
+      dot.addEventListener("click", () => { show(i); userInteracted(); });
+      dotsWrap.appendChild(dot);
+      dots.push(dot);
+
+      // side list item
+      const li = document.createElement("li");
+      li.className = "item" + (i === 0 ? " active" : "");
+      li.innerHTML = `
+        <div class="idx">${i + 1}</div>
+        <div class="meta">
+          <div class="label">${s.label}</div>
+          <div class="path">${s.src}</div>
+        </div>
+      `;
+      li.addEventListener("click", () => { show(i); userInteracted(); });
+      list.appendChild(li);
+    });
+
+    function setActiveList(i){
+      [...list.children].forEach((li, idx) => li.classList.toggle("active", idx === i));
+    }
+
+    function show(i){
+      const nextIndex = (i + slides.length) % slides.length;
+
+      els[index].classList.remove("active");
+      dots[index].classList.remove("active");
+
+      index = nextIndex;
+
+      els[index].classList.add("active");
+      dots[index].classList.add("active");
+
+      currentLabel.textContent = slides[index].label;
+      setActiveList(index);
+    }
+
+    function userInteracted(){
+      if (autoplay) startAutoplay();
+    }
+
+    btnPrev.addEventListener("click", () => { show(index - 1); userInteracted(); });
+    btnNext.addEventListener("click", () => { show(index + 1); userInteracted(); });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { show(index - 1); userInteracted(); }
+      if (e.key === "ArrowRight") { show(index + 1); userInteracted(); }
+      if (e.key === " "){
+        e.preventDefault();
+        autoplay = !autoplay;
+        syncAutoUI();
+        if (autoplay) startAutoplay(); else stopAutoplay();
+      }
+    });
+
+    btnToggleAuto.addEventListener("click", () => {
+      autoplay = !autoplay;
+      syncAutoUI();
+      if (autoplay) startAutoplay();
+      else stopAutoplay();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopAutoplay();
+      else if (autoplay) startAutoplay();
+    });
+
+    phone.addEventListener("mouseenter", () => stopAutoplay());
+    phone.addEventListener("mouseleave", () => { if (autoplay) startAutoplay(); });
+
+    show(0);
+    syncAutoUI();
+    if (autoplay) startAutoplay();
   </script>
 </body>
 </html>
+
